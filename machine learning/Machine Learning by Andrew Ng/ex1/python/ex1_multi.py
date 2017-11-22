@@ -4,7 +4,6 @@ The programming assignment is about linear regression with multiple variables.
 """
 
 import numpy as np
-import os
 from matplotlib import pyplot as plt
 from numpy import linalg
 
@@ -72,8 +71,7 @@ if __name__ == "__main__":
     for i in range(10):
         print(' x = [%.0f %.0f], y = %.0f' % (X[i, 0], X[i, 1], y[i][0]))
 
-    print('Program paused.')
-    os.system("pause");
+    print()
 
     # Scale features and set them to zero mean
     print('Normalizing Features ...')
@@ -115,8 +113,7 @@ if __name__ == "__main__":
     print('Predicted price of a 1650 sq-ft, 3 br house (using gradient descent):')
     print(price[0])
 
-    print('Program paused.')
-    os.system("pause");
+    print()
     
     # ================ Part 3: Normal Equations ================
 

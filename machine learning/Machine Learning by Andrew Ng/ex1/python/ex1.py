@@ -4,7 +4,6 @@ The programming assignment is about linear regression with one variable.
 """
 
 import numpy as np
-import os
 from matplotlib import pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 
@@ -80,8 +79,7 @@ if __name__ == "__main__":
     print('5x5 Identity Matrix:')
     print(warm_up_exercise())
     
-    print('Program paused.')
-    os.system("pause")
+    print()
     
     # ======================= Part 2: Plotting =======================
     print('Plotting Data ...')
@@ -95,8 +93,7 @@ if __name__ == "__main__":
     plot_data(X, y)
     plt.show()
 
-    print('Program paused.')
-    os.system("pause")
+    print()
     
     # =================== Part 3: Cost and Gradient descent ===================
 
@@ -118,8 +115,7 @@ if __name__ == "__main__":
     print('\nWith theta = [-1 ; 2]\nCost computed = ', J)
     print('Expected cost value (approx) 54.24\n')
 
-    print('Program paused.')
-    os.system("pause")
+    print()
 
     print('\nRunning Gradient Descent ...')
     # run gradient descent
@@ -143,8 +139,7 @@ if __name__ == "__main__":
     predict2 = np.array([1, 7]).dot(theta)
     print('For population = 70,000, we predict a profit of ', predict2[0]*10000)
 
-    print('Program paused.');
-    os.system("pause")
+    print()
     
     # ============= Part 4: Visualizing J(theta_0, theta_1) =============
     print('Visualizing J(theta_0, theta_1) ...')
