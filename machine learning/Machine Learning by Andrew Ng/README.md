@@ -2,3 +2,4 @@ These are implements for the course's programming assignments. Don't read these 
 
 - ex1 covers linear regression with one variable and linear regression with multiple variables.
 - ex2 covers logistic regression and regularization with logistic regression.
+- ex3 covers one-vs-all logistic regression and neural networks to recognize hand-written digits.
