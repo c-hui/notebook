@@ -24,14 +24,14 @@ def predict(Theta1, Theta2, X):
     z3 = np.hstack((np.ones((m, 1)), a2)).dot(Theta2.T)
     a3 = sigmoid(z3)
     p = np.argmax(a3, 1) + 1
-    return p
+    return p.reshape(-1, 1)
 
 if __name__=="__main__":
     ## Setup the parameters you will use for this exercise
     input_layer_size  = 400;  # 20x20 Input Images of Digits
     hidden_layer_size = 25;   # 25 hidden units
     num_labels = 10;          # 10 labels, from 1 to 10   
-                            # (note that we have mapped "0" to label 10)
+                              # (note that we have mapped "0" to label 10)
     
     ## =========== Part 1: Loading and Visualizing Data =============
     #  We start the exercise by first loading and visualizing the dataset. 

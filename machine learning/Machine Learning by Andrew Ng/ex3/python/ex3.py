@@ -12,8 +12,7 @@ import scipy.optimize as op
 def display_data(X, example_width = None):
     """Display 2D data in a nice grid
  
-    displays 2D data stored in X in a nice grid. It returns
-    the figure handle h and the displayed array if requested.
+    displays 2D data stored in X in a nice grid.
     """
 
     # Set example_width automatically if not passed in
