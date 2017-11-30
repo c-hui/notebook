@@ -1,6 +1,6 @@
 """
 This is a python implement of the programming assignment in machine learning by Andrew Ng.
-The programming implement the backpropagation algorithm for neural networks and apply it
+The programming assignment implements the backpropagation algorithm for neural networks and apply it
 to the task of hand-written digit recognition
 """
 
