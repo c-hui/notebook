@@ -75,7 +75,7 @@ def process_email(email_contents):
     # Process file
     l = 0
 
-    tokenizer = nltk.RegexpTokenizer(r'[a-zA-Z0-9]+')
+    tokenizer = nltk.RegexpTokenizer(r'[a-zA-Z]+')
     stemmer = nltk.PorterStemmer()
     
     for word in tokenizer.tokenize(email_contents):

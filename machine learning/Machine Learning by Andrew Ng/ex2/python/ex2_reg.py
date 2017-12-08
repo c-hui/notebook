@@ -1,6 +1,6 @@
 """
 This is a python implement of the programming assignment in machine learning by Andrew Ng.
-The exercise covers regularization with logistic regression.
+The exercise covers logistic regression with regularization.
 """
 
 import numpy as np
@@ -11,7 +11,7 @@ import scipy.optimize as op
 def cost_function_reg(theta, X, y, Lambda):
     """Compute cost and gradient for logistic regression with regularization
 
-    computes the cost of using theta as the parameter for regularized logistic regression
+    compute the cost of using theta as the parameter for regularized logistic regression
     and the gradient of the cost w.r.t. to the parameters. 
     """
     # Initialize some useful values
@@ -22,20 +22,20 @@ def cost_function_reg(theta, X, y, Lambda):
     J = np.sum(-y*np.log(h)-(1-y)*np.log(1-h))/m + Lambda*np.sum(theta[1:]**2)/m/2
     grad = X.T.dot(h-y)/m
     grad[1:] = grad[1:] + Lambda*theta[1:]/m
-    return J, grad
+    return J, grad.ravel()
 
 
 
 if __name__=="__main__":
     # Load Data
-    #  The first two columns contains the X values and the third column
-    #  contains the label (y).
+    # The first two columns contains the X values and the third column
+    # contains the label (y).
 
     data = np.loadtxt('ex2data2.txt', delimiter=',')
     X = data[:, [0, 1]]
     y = data[:, 2].reshape(-1,1)
 
-    plot_data(X, y);
+    plot_data(X, y)
 
     # Put some labels
     # Labels and Legend
@@ -47,14 +47,6 @@ if __name__=="__main__":
     plt.show()
     
     # =========== Part 1: Regularized Logistic Regression ============
-    #  In this part, you are given a dataset with data points that are not
-    #  linearly separable. However, you would still like to use logistic
-    #  regression to classify the data points.
-
-    #  To do so, you introduce more features to use -- in particular, you add
-    #  polynomial features to our data matrix (similar to polynomial
-    #  regression).
-
 
     # Add Polynomial Features
 
@@ -95,15 +87,6 @@ if __name__=="__main__":
 
 
     # ============= Part 2: Regularization and Accuracies =============
-    #  Optional Exercise:
-    #  In this part, you will get to try different values of lambda and
-    #  see how regularization affects the decision coundart
-
-    #  Try the following values of lambda (0, 1, 10, 100).
-
-    #  How does the decision boundary change when you vary lambda? How does
-    #  the training set accuracy vary?
-
 
     # Initialize fitting parameters
     initial_theta = np.zeros((X.shape[1], 1))

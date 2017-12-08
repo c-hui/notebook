@@ -10,10 +10,10 @@ from numpy import linalg
 def feature_normalize(X):
     """FEATURENORMALIZE Normalizes the features in X 
 
-    returns a normalized version of X where
-    the mean value of each feature is 0 and the standard deviation
-    is 1. This is often a good preprocessing step to do when
-    working with learning algorithms.
+    returns a normalized version of X where the mean value of
+    each feature is 0 and the standard deviation is 1. This 
+    is often a good preprocessing step to do when working 
+    with learning algorithms.
     """
     mu = np.mean(X, 0)
     sigma = np.std(X, 0)
@@ -28,8 +28,8 @@ def compute_cost_multi(X, y, theta):
     """
     # Initialize some useful values
     m = len(y) # number of training examples
-    J = (X.dot(theta)-y).T.dot(X.dot(theta)-y)/2/m;
-    return J[0][0]
+    J = np.sum((X.dot(theta)-y)**2)/2/m
+    return J
     
 def gradient_descent_multi(X, y, theta, alpha, num_iters):
     """GRADIENTDESCENTMULTI Performs gradient descent to learn theta
@@ -83,7 +83,7 @@ if __name__ == "__main__":
     
     # ================ Part 2: Gradient Descent ================
     
-    print('Running gradient descent ...');
+    print('Running gradient descent ...')
 
     # Choose some alpha value
     alpha = 0.01
@@ -95,7 +95,7 @@ if __name__ == "__main__":
 
     # Plot the convergence graph
     plt.figure()
-    plt.plot(range(0, len(J_history)), J_history, '-b', linewidth=2);
+    plt.plot(range(1,len(J_history)+1), J_history, '-b', linewidth=2)
     plt.xlabel('Number of iterations');
     plt.ylabel('Cost J');
     plt.show()

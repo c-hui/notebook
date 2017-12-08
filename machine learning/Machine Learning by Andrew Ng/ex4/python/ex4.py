@@ -51,8 +51,7 @@ def display_data(X, example_width = None):
         if curr_ex >= m:
             break 
 
-    # set figure size
-    plt.figure(figsize=(10, 8))
+    plt.figure()
     # Display Image
     plt.imshow(display_array.T, cmap='gray')
     # Do not show axis
@@ -123,15 +122,12 @@ def nn_cost_function(nn_params, input_layer_size,\
     Theta2_grad[:, 1:] = Theta2_grad[:, 1:] + Theta2[:, 1:]*Lambda/m
     
     # Unroll gradients
-    grad = np.vstack((Theta1_grad.flatten().reshape(-1,1), Theta2_grad.flatten().reshape(-1,1)))
+    grad = np.hstack((Theta1_grad.flatten(), Theta2_grad.flatten()))
     return J, grad
 
 def rand_initialize_weights(L_in, L_out):
     """Randomly initialize the weights of a layer with L_in
     incoming connections and L_out outgoing connections
-    
-    randomly initializes the weights of a layer with L_in
-    incoming connections and L_out outgoing connections. 
     
     Note that W should be set to a matrix of size(L_out, 1 + L_in) as
     the first column of W handles the "bias" terms
@@ -139,16 +135,11 @@ def rand_initialize_weights(L_in, L_out):
     return np.random.random((L_out, 1 + L_in)) * 2 * 0.12 - 0.12
 
 def debug_initialize_weights(fan_out, fan_in):
-    """nitialize the weights of a layer with fan_in
+    """intialize the weights of a layer with fan_in
     incoming connections and fan_out outgoing connections using a fixed
     strategy, this will help you later in debugging
     
-    initializes the weights of a layer with fan_in incoming connections
-    and fan_out outgoing connections using a fix set of values
-    
-    Note that W should be set to a matrix of size(1 + fan_in, fan_out) as
-    the first row of W handles the "bias" terms
-    """    
+    """
     
     # Initialize W using "sin", this ensures that W is always of the same
     # values and will be useful for debugging
@@ -160,13 +151,6 @@ def compute_numerical_gradient(J, theta):
     
     computes the numerical gradient of the function J around theta.
     Calling y = J(theta) should return the function value at theta.
-    
-     Notes: The following code implements numerical gradient checking, and 
-            returns the numerical gradient.It sets numgrad(i) to (a numerical 
-            approximation of) the partial derivative of J with respect to the 
-            i-th input argument, evaluated at theta. (i.e., numgrad(i) should 
-            be the (approximately) the partial derivative of J with respect 
-            to theta(i).)
     """   
     
     numgrad = np.zeros(theta.shape)
@@ -184,10 +168,10 @@ def compute_numerical_gradient(J, theta):
 
 def check_nn_gradients(Lambda=None):
     """Creates a small neural network to check the backpropagation gradients
-       
+    
     Creates a small neural network to check the backpropagation gradients,
     it will output the analytical gradients produced by your backprop code
-    and the numerical gradients (computed using computeNumericalGradient).
+    and the numerical gradients (computed using compute_numerical_gradient).
     These two gradient computations should result in very similar values.
     """
 
@@ -207,7 +191,7 @@ def check_nn_gradients(Lambda=None):
     y = 1 + np.mod(range(1, m+1), num_labels).reshape(-1, 1)
     
     # Unroll parameters
-    nn_params = np.vstack((Theta1.flatten().reshape(-1,1), Theta2.flatten().reshape(-1,1)))
+    nn_params = np.hstack((Theta1.flatten(), Theta2.flatten()))
     
     # Short hand for cost function
     cost_func = lambda p: nn_cost_function(p, input_layer_size, hidden_layer_size, num_labels, \
@@ -218,8 +202,8 @@ def check_nn_gradients(Lambda=None):
     
     # Visually examine the two gradient computations.  The two columns
     # you get should be very similar. 
-    for i in np.hstack((numgrad, grad)):
-        print(i)
+    for i in range(grad.shape[0]):
+        print(numgrad[i], grad[i])
     print('The above two columns you get should be very similar.\n' \
             '(Left-Your Numerical Gradient, Right-Analytical Gradient)\n')
     
@@ -235,7 +219,7 @@ def check_nn_gradients(Lambda=None):
 def predict(Theta1, Theta2, X):
     """Predict the label of an input given a trained neural network
 
-    outputs the predicted label of X given the trained weights of a 
+    output the predicted label of X given the trained weights of a 
     neural network (Theta1, Theta2)
     """
     # Useful values
@@ -257,8 +241,6 @@ if __name__=="__main__":
                               # (note that we have mapped "0" to label 10)
                          
     # =========== Part 1: Loading and Visualizing Data =============
-    #  We start the exercise by first loading and visualizing the dataset.
-    #  You will be working with a dataset that contains handwritten digits.
 
     # Load Training Data
     print('Loading and Visualizing Data ...')
@@ -276,8 +258,6 @@ if __name__=="__main__":
     display_data(sel)                         
 
     # ================ Part 2: Loading Parameters ================
-    # In this part of the exercise, we load some pre-initialized 
-    # neural network parameters.
 
     print('\nLoading Saved Neural Network Parameters ...')
 
@@ -287,20 +267,10 @@ if __name__=="__main__":
     Theta2 = weights['Theta2']
     
     # Unroll parameters 
-    nn_params = np.vstack((Theta1.flatten().reshape(-1,1), Theta2.flatten().reshape(-1,1)))
+    nn_params = np.hstack((Theta1.flatten(), Theta2.flatten()))
     
     # ================ Part 3: Compute Cost (Feedforward) ================
-    #  To the neural network, you should first start by implementing the
-    #  feedforward part of the neural network that returns the cost only. You
-    #  should complete the code in nnCostFunction.m to return cost. After
-    #  implementing the feedforward to compute the cost, you can verify that
-    #  your implementation is correct by verifying that you get the same cost
-    #  as us for the fixed debugging parameters.
-    #
-    #  We suggest implementing the feedforward cost *without* regularization
-    #  first so that it will be easier for you to debug. Later, in part 4, you
-    #  will get to implement the regularized cost.
-    #
+
     print('\nFeedforward Using Neural Network ...')
 
     # Weight regularization parameter (we set this to 0 here).
@@ -313,9 +283,6 @@ if __name__=="__main__":
             '\n(this value should be about 0.287629)')
     
     ## =============== Part 4: Implement Regularization ===============
-    #  Once your cost function implementation is correct, you should now
-    #  continue to implement the regularization with the cost.
-    #
     
     print('\nChecking Cost Function (w/ Regularization) ... ')
     
@@ -329,10 +296,6 @@ if __name__=="__main__":
             '\n(this value should be about 0.383770)')
 
     ## ================ Part 5: Sigmoid Gradient  ================
-    #  Before you start implementing the neural network, you will first
-    #  implement the gradient for the sigmoid function. You should complete the
-    #  code in the sigmoidGradient.m file.
-    #
     
     print('\nEvaluating sigmoid gradient...')
     
@@ -342,10 +305,6 @@ if __name__=="__main__":
     print('\n')
     
     ## ================ Part 6: Initializing Pameters ================
-    #  In this part of the exercise, you will be starting to implment a two
-    #  layer neural network that classifies digits. You will start by
-    #  implementing a function to initialize the weights of the neural network
-    #  (randInitializeWeights.m)
     
     print('\nInitializing Neural Network Parameters ...')
     
@@ -353,23 +312,16 @@ if __name__=="__main__":
     initial_Theta2 = rand_initialize_weights(hidden_layer_size, num_labels)
     
     # Unroll parameters
-    initial_nn_params = np.vstack((initial_Theta1.flatten().reshape(-1,1), initial_Theta2.flatten().reshape(-1,1)))
+    initial_nn_params = np.hstack((initial_Theta1.flatten(), initial_Theta2.flatten()))
     
     ## =============== Part 7: Implement Backpropagation ===============
-    #  Once your cost matches up with ours, you should proceed to implement the
-    #  backpropagation algorithm for the neural network. You should add to the
-    #  code you've written in nnCostFunction.m to return the partial
-    #  derivatives of the parameters.
-    #
+
     print('\nChecking Backpropagation... ')
     
     #  Check gradients by running check_nn_gradients
     check_nn_gradients()
 
     ## =============== Part 8: Implement Regularization ===============
-    #  Once your backpropagation implementation is correct, you should now
-    #  continue to implement the regularization with the cost and gradient.
-    #
     
     print('\nChecking Backpropagation (w/ Regularization) ... ')
     
@@ -403,19 +355,12 @@ if __name__=="__main__":
     Theta2 = nn_params[hidden_layer_size * (input_layer_size + 1):].reshape((num_labels, (hidden_layer_size + 1)))
         
     ## ================= Part 9: Visualize Weights =================
-    #  You can now "visualize" what the neural network is learning by 
-    #  displaying the hidden units to see what features they are capturing in 
-    #  the data.
-    
+  
     print('\nVisualizing Neural Network... ')
     
     display_data(Theta1[:, 1:])
     
     ## ================= Part 10: Implement Predict =================
-    #  After training the neural network, we would like to use it to predict
-    #  the labels. You will now implement the "predict" function to use the
-    #  neural network to predict the labels of the training set. This lets
-    #  you compute the training set accuracy.
     
     pred = predict(Theta1, Theta2, X)
     

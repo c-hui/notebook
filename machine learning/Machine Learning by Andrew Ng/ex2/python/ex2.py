@@ -43,7 +43,7 @@ def cost_function(theta, X, y):
     h = sigmoid(X.dot(theta))
     J = np.sum(-y*np.log(h)-(1-y)*np.log(1-h))/m
     grad = X.T.dot(h-y)/m
-    return J, grad
+    return J, grad.ravel()
 
 def plot_decision_boundary(theta, X, y):
     """Plots the data points X and y into a new figure with
@@ -116,8 +116,8 @@ def map_feature(X1, X2):
   
 if __name__=="__main__":
     # Load Data
-    #  The first two columns contains the exam scores and the third column
-    #  contains the label.
+    # The first two columns contains the exam scores and the third column
+    # contains the label.
 
     data = np.loadtxt('ex2data1.txt', delimiter=',')
     X = data[:, [0, 1]]
@@ -172,9 +172,9 @@ if __name__=="__main__":
 
     print('\n')
 
-    # ============= Part 3: Optimizing using fminunc  =============
+    # ============= Part 3: Optimizing using scipy.optimize.minimize =============
 
-    #  Run minimize with  to obtain the optimal theta
+    #  Run minimize to obtain the optimal theta
     res = op.minimize(fun=cost_function, x0=initial_theta, \
         args=(X, y), jac=True, method = 'TNC', options={'maxiter': 400})
     theta = res.x

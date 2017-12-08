@@ -19,7 +19,7 @@ def linear_reg_cost_function(X, y, theta, Lambda):
         the cost in J and the gradient in grad
     """
     # Initialize some useful values
-    m = len(y) # number of training examples
+    m = X.shape[0] # number of training examples
     
     theta = theta.reshape(X.shape[1], 1)
     
@@ -73,7 +73,7 @@ def learning_curve(X, y, Xval, yval, Lambda):
     error_val   = np.zeros((m, 1))
     
     for i in range(m):
-        theta = train_linear_reg(X[0:i+1, :], y[0:i+1], Lambda);
+        theta = train_linear_reg(X[0:i+1, :], y[0:i+1], Lambda)
         error_train[i], _ = linear_reg_cost_function(X[0:i+1, :], y[0:i+1], theta, 0)
         error_val[i], _ = linear_reg_cost_function(Xval, yval, theta, 0)
     
@@ -105,7 +105,7 @@ def feature_normalize(X):
     mu = np.mean(X, 0)
     X_norm = X - mu
     
-    sigma = np.std(X, 0)
+    sigma = np.std(X, 0, ddof=1)
     X_norm = X_norm/sigma
     
     return X_norm, mu, sigma
@@ -169,7 +169,7 @@ if __name__ == "__main__":
         data['Xval'], data['yval'], data['Xtest'], data['ytest']
     
     # m = Number of examples
-    m = len(X)
+    m = X.shape[0]
     
     # Plot training data
     plt.plot(X, y, 'rx', markersize=10, linewidth=1.5)
@@ -210,7 +210,7 @@ if __name__ == "__main__":
     
     Lambda = 0
     error_train, error_val = learning_curve(np.hstack((np.ones((m, 1)), X)), y, \
-        np.hstack((np.ones((len(Xval), 1)), Xval)), yval, Lambda)
+        np.hstack((np.ones((Xval.shape[0], 1)), Xval)), yval, Lambda)
     
     plt.plot(range(1, m+1), error_train, range(1, m+1), error_val)
     plt.title('Learning curve for linear regression')
@@ -246,7 +246,7 @@ if __name__ == "__main__":
     X_poly_val = np.hstack((np.ones((X_poly_val.shape[0], 1)), X_poly_val))           # Add Ones
     
     print('Normalized Training Example 1:')
-    print(X_poly[1, :])
+    print(X_poly[0, :])
     
     ## =========== Part 7: Learning Curve for Polynomial Regression =============
     

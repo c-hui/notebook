@@ -6,5 +6,6 @@ These are implements for the course's programming assignments. Don't read these 
 - ex4 implements the backpropagation algorithm for neural networks and apply it to the task of hand-written digit recognition.
 - ex5 implements regularized linear regression and uses it to study models with different bias-variance properties.
 - ex6 uses support vector machines (SVMs) to build a spam classifier.
+- ex7 implements the K-means clustering algorithm and applys it to compress an image and uses principal component analysis to find a low-dimensional representation of face images.
 
 Note: All data files are in matlab dirs.

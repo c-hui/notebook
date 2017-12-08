@@ -1,6 +1,6 @@
 """
 This is a python implement of the programming assignment in machine learning by Andrew Ng.
-The programming assignment uss support vector machines (SVMs) with various example 2D datasets.
+The programming assignment use support vector machines (SVMs) with various example 2D datasets.
 """
 
 import numpy as np
@@ -71,11 +71,11 @@ def visualize_boundary(X, y, model):
         vals[:, i] = model.predict(this_X)
     
     # Plot the SVM boundary
-    plt.contour(X1, X2, vals, [0.5], colors='b')
+    plt.contour(X1, X2, vals, [0], colors='b')
     plt.show()
     
 def dataset3_params(X, y, Xval, yval):
-    """returns your choice of C and sigma for Part 3 of the exercise
+    """return your choice of C and sigma for Part 3 of the exercise
     where you select the optimal (C, sigma) learning parameters to use for SVM
     with RBF kernel
     

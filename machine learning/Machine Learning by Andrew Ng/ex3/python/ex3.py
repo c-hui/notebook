@@ -15,12 +15,13 @@ def display_data(X, example_width = None):
     displays 2D data stored in X in a nice grid.
     """
 
+    m, n = X.shape
+    
     # Set example_width automatically if not passed in
     if example_width is None:
-        example_width = int(round(np.sqrt(X.shape[1])))
+        example_width = int(round(np.sqrt(n)))
 
     # Compute rows, cols
-    m, n = X.shape
     example_height = int(n / example_width)
 
     # Compute number of items to display
@@ -50,8 +51,7 @@ def display_data(X, example_width = None):
         if curr_ex >= m:
             break 
 
-    # set figure size
-    plt.figure(figsize=(10, 8))
+    plt.figure()
     # Display Image
     plt.imshow(display_array.T, cmap='gray')
     # Do not show axis
@@ -67,7 +67,8 @@ def sigmoid(z):
 
 def lr_cost_function(theta, X, y, Lambda):
     """Compute cost and gradient for logistic regression with regularization
-    computes the cost of using theta as the parameter for regularized logistic
+    
+    compute the cost of using theta as the parameter for regularized logistic
     regression and the gradient of the cost w.r.t. to the parameters. 
     """
     # Initialize some useful values
@@ -78,21 +79,16 @@ def lr_cost_function(theta, X, y, Lambda):
     J = np.sum(-y*np.log(h)-(1-y)*np.log(1-h))/m + Lambda*np.sum(theta[1:]**2)/m/2
     grad = X.T.dot(h-y)/m
     grad[1:] = grad[1:] + Lambda*theta[1:]/m
-    return J, grad
+    return J, grad.ravel()
 
 def one_vs_all(X, y, num_labels, Lambda):
-    """trains multiple logistic regression classifiers and returns all
+    """train multiple logistic regression classifiers and returns all
     the classifiers in a matrix all_theta, where the i-th row of all_theta 
-    corresponds to the classifier for label i
-    
-    trains num_labels logistic regression classifiers and returns each of
-    these classifiers in a matrix all_theta, where the i-th row of all_theta 
     corresponds to the classifier for label i
     """
     # Some useful variables
     m, n = X.shape
 
-    # You need to return the following variables correctly 
     all_theta = np.zeros((num_labels, n + 1))
 
     # Add ones to the X data matrix
@@ -105,16 +101,16 @@ def one_vs_all(X, y, num_labels, Lambda):
     return all_theta
 
 def predict_one_vs_all(all_theta, X):
-    """PREDICT Predict the label for a trained one-vs-all classifier. The labels 
-    are in the range 1..K, where K = size(all_theta, 1).
+    """Predict the label for a trained one-vs-all classifier. The labels 
+    are in the range 1..K, where K = len(all_theta).
     
     return a vector of predictions for each example in the matrix X. Note that X
     contains the examples in rows. all_theta is a matrix where the i-th row is a 
     trained logistic regression theta vector for the i-th class. You should set
     p to a vector of values from 1..K (e.g., p = [1; 3; 1; 2] predicts classes 1,
-    3, 1, 2 for 4 examples) 
+    3, 1, 2 for 4 examples)
     """
-    m = len(X)
+    m = X.shape[0]
     num_labels = len(all_theta)
 
     # Add ones to the X data matrix
@@ -126,12 +122,10 @@ def predict_one_vs_all(all_theta, X):
 if __name__=="__main__":
     # Setup the parameters you will use for this part of the exercise
     input_layer_size  = 400  # 20x20 Input Images of Digits
-    num_labels = 10;         # 10 labels, from 1 to 10
+    num_labels = 10          # 10 labels, from 1 to 10
                              # (note that we have mapped "0" to label 10)
 
     # =========== Part 1: Loading and Visualizing Data =============
-    #  We start the exercise by first loading and visualizing the dataset.
-    #  You will be working with a dataset that contains handwritten digits.
 
     # Load Training Data
     print('Loading and Visualizing Data ...')
@@ -149,12 +143,6 @@ if __name__=="__main__":
     display_data(sel)
     
     # ============ Part 2a: Vectorize Logistic Regression ============
-    #  In this part of the exercise, you will reuse your logistic regression
-    #  code from the last exercise. You task here is to make sure that your
-    #  regularized logistic regression implementation is vectorized. After
-    #  that, you will implement one-vs-all classification for the handwritten
-    #  digit dataset.
-    #
     
     # Test case for lrCostFunction
     print('\nTesting lrCostFunction() with regularization')
@@ -165,7 +153,7 @@ if __name__=="__main__":
     lambda_t = 3
     J, grad = lr_cost_function(theta_t, X_t, y_t, lambda_t)
     
-    print('\nCost: ', J)
+    print('\nCost:', J)
     print('Expected cost: 2.534819')
     print('Gradients:')
     print(grad)
@@ -182,4 +170,4 @@ if __name__=="__main__":
     
     pred = predict_one_vs_all(all_theta, X)
     
-    print('\nTraining Set Accuracy: ', np.mean((pred==y).astype(int)) * 100)
+    print('\nTraining Set Accuracy:', np.mean((pred==y).astype(int)) * 100)

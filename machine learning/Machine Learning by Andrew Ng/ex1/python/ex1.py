@@ -21,47 +21,28 @@ def plot_data(x, y):
     plots the data points and gives the figure axes labels of
     population and profit.
     """
-    figure, axes = plt.subplots()
-    axes.plot(x, y, 'rx', markersize=10)
-    axes.set_ylabel('Profit in $10,000s')
-    axes.set_xlabel('Population of City in 10,000s')
-    return figure, axes
+    plt.figure()
+    plt.plot(x, y, 'rx', markersize=10)
+    plt.ylabel('Profit in $10,000s')
+    plt.xlabel('Population of City in 10,000s')
+    
 
 def compute_cost(X, y, theta):
     """Compute cost for linear regression   
     
-    computes the cost of using theta as the
-    parameter for linear regression to fit the data points in X and y
-    
-    Args:
-        X: input features
-        y: target variable
-        theta: model parameter
-    
-    Returns:
-        cost for linear regression
+    computes the cost of using theta as the parameter for 
+    linear regression to fit the data points in X and y
     """
     # Initialize some useful values
     m = len(y) # number of training examples
-    J = (X.dot(theta)-y).T.dot(X.dot(theta)-y)/2/m;
-    return J[0][0]
+    J = np.sum((X.dot(theta)-y)**2)/2/m
+    return J
 
 def gradient_descent(X, y, theta, alpha, num_iters):
     """Performs gradient descent to learn theta
     
     updates theta by taking num_iters gradient steps with
     learning rate alpha
-    
-    Args:
-        X: input features
-        y: target variable
-        theta: model parameter
-        alpha: learning rate
-        num_iters: The number of iterations
-        
-    Returns:
-        A binary tuple, first element is theta, the second
-        is record of cost.
     """
     # Initialize some useful values
     m = len(y) # number of training examples
@@ -89,7 +70,6 @@ if __name__ == "__main__":
     m = len(y) # number of training examples
 
     # Plot Data
-    # Note: You have to complete the code in plotData.m
     plot_data(X, y)
     plt.show()
 
@@ -97,8 +77,8 @@ if __name__ == "__main__":
     
     # =================== Part 3: Cost and Gradient descent ===================
 
-    X = np.hstack((np.ones((m, 1)), data[:, 0].reshape(-1, 1))) # Add a column of ones to x
-    theta = np.zeros((2, 1)); # initialize fitting parameters
+    X = np.hstack((np.ones((m, 1)), X.reshape(-1, 1))) # Add a column of ones to x
+    theta = np.zeros((2, 1)) # initialize fitting parameters
 
     # Some gradient descent settings
     iterations = 1500
@@ -128,9 +108,9 @@ if __name__ == "__main__":
     print(' -3.6303\n  1.1664\n');
 
     # Plot the linear fit
-    _, ax = plot_data(X[:,1], y)
-    ax.plot(X[:,1], X.dot(theta), '-')
-    ax.legend(['Training data', 'Linear regression'])
+    plot_data(X[:,1], y)
+    plt.plot(X[:,1], X.dot(theta), '-')
+    plt.legend(['Training data', 'Linear regression'])
     plt.show()
 
     # Predict values for population sizes of 35,000 and 70,000
