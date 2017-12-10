@@ -1,5 +1,5 @@
 """
-This is a python implement of the programming assignment in machine learning by Andrew Ng.
+This is a python implementation of the programming assignment in machine learning by Andrew Ng.
 The programming assignment implements regularized linear regression and uses it to study
 models with different bias-variance properties.
 """

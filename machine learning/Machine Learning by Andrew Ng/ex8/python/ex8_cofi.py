@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 """
-This is a python implement of the programming assignment in machine learning by Andrew Ng.
+This is a python implementation of the programming assignment in machine learning by Andrew Ng.
 The programming assignment uses collaborative filtering to build a recommender system for movies.
 """
 
