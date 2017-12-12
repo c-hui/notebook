@@ -268,8 +268,6 @@ if __name__=="__main__":
     
     initial_parameters = np.hstack((X.flatten(), Theta.flatten()))
     
-
-    
     # Set Regularization
     Lambda = 10
     res = op.minimize(fun=cofi_cost_func, x0=initial_parameters, \

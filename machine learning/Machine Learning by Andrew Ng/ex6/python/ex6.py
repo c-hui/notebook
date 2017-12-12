@@ -45,7 +45,7 @@ def gaussian_kernel(x1, x2, sigma):
         a gaussian kernel between x1 and x2 and returns the
         value in sim
     """
-    # Ensure that x1 and x2 are column vectors
+    # Ensure that x1 and x2 are row vectors
     x1 = x1.ravel()
     x2 = x2.ravel()
     

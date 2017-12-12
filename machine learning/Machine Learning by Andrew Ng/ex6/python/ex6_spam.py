@@ -79,19 +79,19 @@ def process_email(email_contents):
     stemmer = nltk.PorterStemmer()
     
     for word in tokenizer.tokenize(email_contents):
-        str = stemmer.stem(word)
+        word_stem = stemmer.stem(word)
         
         # Look up the word in the dictionary and add to word_indices if
         # found
-        if str in vocab_list:
-            word_indices.append(vocab_list[str])
+        if word_stem in vocab_list:
+            word_indices.append(vocab_list[word_stem])
         
         # Print to screen, ensuring that the output lines are not too long
-        if l + len(str) + 1 > 78:
+        if l + len(word_stem) + 1 > 78:
             print()
             l = 0
-        print(str, end=' ')
-        l = l + len(str) + 1
+        print(word_stem, end=' ')
+        l = l + len(word_stem) + 1
     
     # Print footer
     print('\n\n=========================')

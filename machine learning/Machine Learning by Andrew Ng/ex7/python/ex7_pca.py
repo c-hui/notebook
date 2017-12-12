@@ -254,7 +254,6 @@ if __name__=="__main__":
     plt.subplot(122)
     display_data(X_rec[0:100,:])
     plt.title('Recovered faces')
-    #plt.axis('square')
     plt.show()
     
     ## === Part 8(a): Optional (ungraded) Exercise: PCA for Visualization ===
