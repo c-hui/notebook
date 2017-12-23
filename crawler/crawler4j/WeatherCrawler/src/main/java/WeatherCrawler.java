@@ -1,4 +1,3 @@
-import com.csvreader.CsvWriter;
 import edu.uci.ics.crawler4j.crawler.Page;
 import edu.uci.ics.crawler4j.crawler.WebCrawler;
 import edu.uci.ics.crawler4j.parser.HtmlParseData;
@@ -8,48 +7,18 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.regex.Pattern;
 
 public class WeatherCrawler extends WebCrawler {
 
     private static final Pattern Link = Pattern.compile("http://www.meteomanz.com/.*&np=\\d+&.*");
     private static final Pattern NoLink = Pattern.compile("http://www.meteomanz.com/.*&np=1&.*");
+    private static MySql mysql;
 
-    /** data save path */
-    private final static String CSV_PATH = "data/crawl/weather.csv";
 
-    private final File csv;
-    private CsvWriter cw;
-
-    public WeatherCrawler() throws IOException {
-        csv = new File(CSV_PATH);
-        if (csv.isFile()) {
-            csv.delete();
-        }
-        cw = new CsvWriter(new FileWriter(csv, true), ',');
-        cw.write("Station");
-        cw.write("Date");
-        cw.write("UTC time");
-        cw.write("Temp.(ºC)");
-        cw.write("Rel. Hum.(%)");
-        cw.write("Pressure/Geopot.");
-        cw.write("Wind dir");
-        cw.write("Wins speed(Km/h)");
-        cw.write("Clouds");
-        cw.write("Low clouds");
-        cw.write("Medium clouds");
-        cw.write("High clouds");
-        cw.write("Prec.(mm)");
-        cw.write("Max temp.(ºC)");
-        cw.write("Min temp.(ºC)");
-        cw.write("Conditions");
-        cw.endRecord();
-        cw.close();
+    public WeatherCrawler() {
+        mysql = (MySql) OnlyApplicateContext.getInstance().getContext().getBean("mysqlTest");
     }
-
 
     /**
      * You should implement this function to specify whether the given url
@@ -72,28 +41,31 @@ public class WeatherCrawler extends WebCrawler {
     public void visit(Page page) {
         String url = page.getWebURL().getURL();
         System.out.println(url);
-        HtmlParseData htmlParseData = (HtmlParseData) page.getParseData();
-        String html = htmlParseData.getHtml();
-        Document doc = Jsoup.parse(html);
-        try {
-            cw = new CsvWriter(new FileWriter(csv, true), ',');
+        if (page.getParseData() instanceof HtmlParseData) {
+            HtmlParseData htmlParseData = (HtmlParseData) page.getParseData();
+            String html = htmlParseData.getHtml();
+            Document doc = Jsoup.parse(html);
+
             Elements trs = doc.select("tr");
             trs.remove(0);
             for (Element tr : trs) {
+                StringBuilder sb = new StringBuilder();
+                sb.append("insert into weather_history(Station, Date, Time, Temp, RelHum," +
+                        " Pressure, WindDir, WinsSpeed, Clouds, LowClouds, MediumClouds," +
+                        " HighClouds, Prec, MaxTemp, MinTemp, Conditions) values (");
                 Elements tds = tr.select("td");
+                int i = 0;
                 for (Element td : tds) {
+                    i += 1;
                     String text = td.text();
-                    if (text.equals("") || text.equals("N/A"))
-                        cw.write("-");
-                    else cw.write(text);
+                    if (text.equals("") || text.equals("N/A") || text.equals("-"))
+                        sb.append("NULL");
+                    else sb.append("\"").append(text).append("\"");
+                    if (i < 16) sb.append(",");
                 }
-                cw.endRecord();
-                cw.flush();
+                sb.append(")");
+                mysql.execute(sb.toString());
             }
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            cw.close();
         }
     }
 }
