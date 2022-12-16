@@ -22,7 +22,7 @@
 
     <properties>
         <jdk.version>1.8</jdk.version>
-        <springframework.version>4.3.7.RELEASE</springframework.version>
+        <springframework.version>5.2.20.RELEASE</springframework.version>
     </properties>
 
     <dependencies>
